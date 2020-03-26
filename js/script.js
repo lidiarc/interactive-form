@@ -15,7 +15,7 @@ para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmen
 const selectOption = document.getElementById("title");
 const otherTitle = document.getElementById("other-title");
 
-otherTitle.style.visibility = 'hidden';
+//otherTitle.style.visibility = 'hidden';
 
 selectOption.addEventListener('onchange', () => {
     if (selectOption.value === 'other'){
