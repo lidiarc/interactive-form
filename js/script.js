@@ -12,14 +12,14 @@ display if JavaScript is disabled, but be hidden initially with JS. //
 En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicialmente, 
 para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
-const otherTitle = document.getElementById("other-title");
 const selectOption = document.getElementById("title");
+const otherTitle = document.getElementById("other-title");
 
-otherTitle.style.display = 'hide';
+otherTitle.style.visibility = 'hidden';
 
 selectOption.addEventListener('onchange', () => {
     if (selectOption.value === 'other'){
-        otherTitle.style.display = 'show';
+        otherTitle.style.visibility = 'visible';
     }
 });
 
