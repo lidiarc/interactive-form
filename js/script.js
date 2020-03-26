@@ -12,6 +12,16 @@ display if JavaScript is disabled, but be hidden initially with JS. //
 En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicialmente, 
 para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
+const otherTitle = document.getElementById("other-title");
+const selectOption = document.getElementById("title");
+
+otherTitle.addEventListener('onchange', () => {
+    if (selectOption.value === 'other'){
+        otherTitle.style.display = 'none';
+    } else {
+        otherTitle.style.display = 'show';
+    }
+});
 
 /*
 The goal for the t-shirt section is to filter the available "Color" options by the selected 
