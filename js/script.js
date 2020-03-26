@@ -17,9 +17,9 @@ const selectOption = document.getElementById("title");
 
 otherTitle.addEventListener('onchange', () => {
     if (selectOption.value === 'other'){
-        otherTitle.style.display = 'none';
-    } else {
         otherTitle.style.display = 'show';
+    } else {
+        otherTitle.style.display = 'hide';
     }
 });
 
