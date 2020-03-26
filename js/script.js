@@ -1,6 +1,8 @@
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
-$('#name').focus();
+const initialFocus = document.getElementById("name");
+initialFocus.focus();
+//$('#name').focus();
 
 /*
 Add an “Other” option to the Job Role section
