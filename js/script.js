@@ -1,6 +1,6 @@
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
-const $name = $('name');
+const $name = $('#name');
 $name.focus();
 
 /*
