@@ -2,8 +2,7 @@
 //Use JavaScript to select the 'Name' input element and place focus on it.
 // const initialFocus = document.getElementById("name");
 // initialFocus.focus();
-const initialFocus = $('#name');
-initialFocus.focus();
+$('#name').focus();
 
 /*
 Add an “Other” option to the Job Role section
