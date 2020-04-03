@@ -1,7 +1,7 @@
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
 const initialFocus = document.getElementById("name");
-//initialFocus.focus();
+initialFocus.focus();
 
 
 /*
@@ -14,12 +14,38 @@ para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmen
 */
 // const selectOption = document.getElementById("title");
 // const otherTitle = document.getElementById("other-title");
-// const otherValue = document.querySelector("other");
-/*
-const $otherTitle = $("#other-title");
+// const otherValue = document.querySelectorAll("other option[type='other']");
+//style="visibility:hidden" 
 
+//const $otherTitle = $("#other-title");
+//$otherTitle.hide();
+
+$(document).ready( function() {
+    $("#title").on('change', function() {
+        if ($(this).val() === "other") {
+            //$("#other-title").prop("disabled", true);
+            $("#other-title").show();
+        } else {
+            $("#other-title").prop("disabled", false);
+        }
+    });
+});
+/*
+document.addEventListener('DOMContentLoaded', function () {
+    //otherTitle.onchange = activeOtherTitle;
+    otherTitle.hide();
+  }, false);
+
+function activeOtherTitle() {
+    if (otherValue){
+        otherTitle.style.visibility = 'visible';
+    }
+}
+*/
+/*
 $(document).ready(function() {
-    $('otherTitle').hide();
+    //$('#otherTitle').prop('disabled', true);
+    $('#otherTitle').hide();
 });
 */
 /*

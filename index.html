@@ -32,15 +32,16 @@ element in your JS file.-->
 
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
-          <br>
-          <input type="text" style="visibility:hidden" id="other-title" name="job_role_other" placeholder=“Your_Job_Role”>
 
           <option value="full-stack js developer">Full Stack JavaScript Developer</option>
           <option value="front-end developer">Front End Developer</option>
           <option value="back-end developer">Back End Developer</option>
           <option value="designer">Designer</option>          
           <option value="student">Student</option>
-          <option value="other">Other</option>  
+          <option value="other">Other</option>
+
+          <br>
+          <input type="text" id="other-title" name="job_role_other" placeholder=“Your_Job_Role”>
         </select>           
       </fieldset>
       
@@ -181,5 +182,6 @@ element in your JS file.-->
 
   </div>
   <script src="js/script.js"></script>
+  <script src="js/jquery-3.2.1.min.js"></script>
 </body>
 </html>
