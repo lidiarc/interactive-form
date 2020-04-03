@@ -1,7 +1,7 @@
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
 const initialFocus = document.getElementById("name");
-initialFocus.focus();
+//initialFocus.focus();
 
 
 /*
