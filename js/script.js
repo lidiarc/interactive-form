@@ -12,10 +12,17 @@ display if JavaScript is disabled, but be hidden initially with JS. //
 En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicialmente, 
 para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
-const selectOption = document.getElementById("title");
-const otherTitle = document.getElementById("other-title");
-const otherValue = document.querySelector("other");
+// const selectOption = document.getElementById("title");
+// const otherTitle = document.getElementById("other-title");
+// const otherValue = document.querySelector("other");
 
+const $otherTitle = $("#other-title");
+
+$(document).ready(function() {
+    $('otherTitle').hide();
+});
+
+/*
 $(document).ready(function() {   //$(document).ready se ejecuta cuando carga la pagina
     $('other-title').prop('disabled', true);   //desactiva el input al cargar
     $('title[value="other"]').keyup(function() {   //cuando presionas tecla 
@@ -24,7 +31,7 @@ $(document).ready(function() {   //$(document).ready se ejecuta cuando carga la 
        }
     });
 });
-
+*/
 /*
 //otherTitle.style.visibility = 'hidden';
 otherTitle.style.display = 'hide';
