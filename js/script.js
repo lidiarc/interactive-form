@@ -17,17 +17,18 @@ para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmen
 // const otherValue = document.querySelectorAll("other option[type='other']");
 //style="visibility:hidden" 
 
-//const $otherTitle = $("#other-title");
-//$otherTitle.hide();
+const $otherTitle = $("#other-title");
+$otherTitle.hide();
 
 $(document).ready( function() {
     $("#title").on('change', function() {
         if ($(this).val() === "other") {
             //$("#other-title").prop("disabled", true);
-            $("#other-title").show();
-        } else {
+            //$("#other-title").show();
+            $otherTitle.show();
+        } /*else {
             $("#other-title").prop("disabled", false);
-        }
+        }*/
     });
 });
 /*
