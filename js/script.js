@@ -15,13 +15,13 @@ para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmen
 // const selectOption = document.getElementById("title");
 // const otherTitle = document.getElementById("other-title");
 // const otherValue = document.querySelector("other");
-
+/*
 const $otherTitle = $("#other-title");
 
 $(document).ready(function() {
     $('otherTitle').hide();
 });
-
+*/
 /*
 $(document).ready(function() {   //$(document).ready se ejecuta cuando carga la pagina
     $('other-title').prop('disabled', true);   //desactiva el input al cargar
