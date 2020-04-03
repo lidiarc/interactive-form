@@ -14,7 +14,18 @@ para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmen
 */
 const selectOption = document.getElementById("title");
 const otherTitle = document.getElementById("other-title");
+const otherValue = document.querySelector("other");
 
+$(document).ready(function() {   //$(document).ready se ejecuta cuando carga la pagina
+    $('other-title').prop('disabled', true);   //desactiva el input al cargar
+    $('title[value="other"]').keyup(function() {   //cuando presionas tecla 
+       if($(this).val() != '') {
+          $(':input[type="submit"]').prop('disabled', false);
+       }
+    });
+});
+
+/*
 //otherTitle.style.visibility = 'hidden';
 otherTitle.style.display = 'hide';
 
@@ -23,6 +34,7 @@ selectOption.addEventListener('onchange', () => {
         otherTitle.style.visibility = 'visible';
     }
 });
+*/
 
 /*
 The goal for the t-shirt section is to filter the available "Color" options by the selected 
