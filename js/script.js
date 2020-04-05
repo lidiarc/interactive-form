@@ -1,8 +1,9 @@
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
-const initialFocus = document.getElementById("name");
-initialFocus.focus();
-
+// const initialFocus = document.getElementById("name");
+// initialFocus.focus();
+const $initialFocus = $("#name");
+$initialFocus.focus();
 
 /*
 Add an “Other” option to the Job Role section
@@ -12,63 +13,20 @@ display if JavaScript is disabled, but be hidden initially with JS. //
 En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicialmente, 
 para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
-// const selectOption = document.getElementById("title");
-// const otherTitle = document.getElementById("other-title");
-// const otherValue = document.querySelectorAll("other option[type='other']");
-//style="visibility:hidden" 
 
 const $otherTitle = $("#other-title");
 $otherTitle.hide();
 
 $(document).ready( function() {
-    $("#title").on('change', function() {
+    $("#title").change( function() {
+    //Esta opción también funciona:   $("#title").on('change', function() {
         if ($(this).val() === "other") {
-            //$("#other-title").prop("disabled", true);
-            //$("#other-title").show();
             $otherTitle.show();
-        } /*else {
-            $("#other-title").prop("disabled", false);
-        }*/
+        } else {
+            $otherTitle.hide();
+        }
     });
 });
-/*
-document.addEventListener('DOMContentLoaded', function () {
-    //otherTitle.onchange = activeOtherTitle;
-    otherTitle.hide();
-  }, false);
-
-function activeOtherTitle() {
-    if (otherValue){
-        otherTitle.style.visibility = 'visible';
-    }
-}
-*/
-/*
-$(document).ready(function() {
-    //$('#otherTitle').prop('disabled', true);
-    $('#otherTitle').hide();
-});
-*/
-/*
-$(document).ready(function() {   //$(document).ready se ejecuta cuando carga la pagina
-    $('other-title').prop('disabled', true);   //desactiva el input al cargar
-    $('title[value="other"]').keyup(function() {   //cuando presionas tecla 
-       if($(this).val() != '') {
-          $(':input[type="submit"]').prop('disabled', false);
-       }
-    });
-});
-*/
-/*
-//otherTitle.style.visibility = 'hidden';
-otherTitle.style.display = 'hide';
-
-selectOption.addEventListener('onchange', () => {
-    if (selectOption.value === 'other'){
-        otherTitle.style.visibility = 'visible';
-    }
-});
-*/
 
 /*
 The goal for the t-shirt section is to filter the available "Color" options by the selected 
