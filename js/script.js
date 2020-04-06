@@ -37,11 +37,27 @@ When the form is initially loaded, we need to update the "Design" and "Color" fi
 clear to the user that they need to select a theme before selecting a color. Use javaScript to:
 */
 
-// ● Hide the “Select Theme” `option` element in the “Design” menu.
-// ● Update the “Color” field to read “Please select a T-shirt theme”.
-// ● Hide the colors in the “Color” drop down menu.
-// ● NOTE: Be sure to check out the helpful links in the second section of this Study Guide if
-// you’re unsure of how to accomplish these steps.
+$( window ).on('load', function(event) {
+//     console.log(event);
+//$(document).ready( function() {
+    event.preventDefault();
+    // ● Hide the “Select Theme” `option` element in the “Design” menu.
+    //$('#design option:eq(0)').remove();
+    $('#design option:eq(0)').hide();
+    //$('#design[option="Select Theme"]').hide();
+    //$("#design#option").hide();
+
+    // ● Update the “Color” field to read “Please select a T-shirt theme”.
+    //$('#color').html($('<option textContent="Please select a T-shirt theme"></option>'));
+    const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
+    $('#color').prepend($newOption);    
+    
+    // ● Hide the colors in the “Color” drop down menu.
+    $('#color option').hide();
+    // ● NOTE: Be sure to check out the helpful links in the second section of this Study Guide if
+    // you’re unsure of how to accomplish these steps.
+});
+
 
 /*
 Then, when one of the two themes is selected, only the appropriate colors should show in the
