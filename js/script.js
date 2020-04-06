@@ -65,13 +65,31 @@ Then, when one of the two themes is selected, only the appropriate colors should
 use a `change` event listener on the “Design” menu `select` element to listen for changes. And
 inside the event listener, you’ll use a conditional to determine what to hide, show and update.
 */
+$('#design').change( function() {
+    console.log($(this).val());
+    // ● If “js puns” is selected, hide the three “heart js” option elements in the “Color” drop
+    // down menu, show the three “js puns” option elements, and update the “Color” field to
+    // the first available color.
+    // ● If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
+    // down menu, show the three “heart js” option elements, and update the “Color” field to
+    // the first available color.
+    // const $heart_js = $('option[value$="+JS shirt+"]');
+    // console.log($heart_js);
+    // const $heart_js2 = $("select#color option[text='JS shirt only)']");
+    // console.log($heart_js2);
+    const $heart_js = $("select#color option:gt(3)");
+    const $js_puns = $('#color option');
+    if ($(this).val() === 'js puns') {
+        $js_puns.slice(1,4).show();
+        $heart_js.hide();
+    } else {
+        $js_puns.slice(1,4).hide();
+        $heart_js.show();
+        //$("select#color option[value='+JS Puns+']" ).show();
+        //$(this).attr(selected);
+    }
+});
 
-// ● If “js puns” is selected, hide the three “heart js” option elements in the “Color” drop
-// down menu, show the three “js puns” option elements, and update the “Color” field to
-// the first available color.
-// ● If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
-// down menu, show the three “heart js” option elements, and update the “Color” field to
-// the first available color.
 
 /*
 Like many code problems, there are multiple ways to complete this section of the project.
