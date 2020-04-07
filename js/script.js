@@ -53,7 +53,8 @@ $( window ).on('load', function(event) {
     $('#color').prepend($newOption);    
     
     // ● Hide the colors in the “Color” drop down menu.
-    $('#color option').hide();
+    //$('#color option').hide();
+    $('#colors-js-puns').hide();
     // ● NOTE: Be sure to check out the helpful links in the second section of this Study Guide if
     // you’re unsure of how to accomplish these steps.
 });
@@ -65,7 +66,8 @@ Then, when one of the two themes is selected, only the appropriate colors should
 use a `change` event listener on the “Design” menu `select` element to listen for changes. And
 inside the event listener, you’ll use a conditional to determine what to hide, show and update.
 */
-$('#design').change( function() {
+$('#design').on('change', function() {
+//$('#design').change( function() {
     console.log($(this).val());
     // ● If “js puns” is selected, hide the three “heart js” option elements in the “Color” drop
     // down menu, show the three “js puns” option elements, and update the “Color” field to
@@ -80,9 +82,11 @@ $('#design').change( function() {
     const $heart_js = $("select#color option:gt(3)");
     const $js_puns = $('#color option');
     if ($(this).val() === 'js puns') {
+        $('#colors-js-puns').show();
         $js_puns.slice(1,4).show();
         $heart_js.hide();
     } else {
+        $('#colors-js-puns').show();
         $js_puns.slice(1,4).hide();
         $heart_js.show();
         //$("select#color option[value='+JS Puns+']" ).show();
@@ -108,9 +112,101 @@ But a preferred approach would be to come up with a dynamic solution that will w
 the cost, day or time of the activities were changed in the HTML. To do that, we'll:
 */
 
-
+/*
+Creating an element to display the total activity cost 
+Create a DOM element, store it in a global variable and append it to the `.activity` section. You
+can view the elements tab in the Chrome DevTools to check that your element is in the DOM.
+Create a global variable to store total activity cost — initially set to 0 — don't use const since
+you want to update this as needed.
+*/
 // ● Create an element to display the total activity cost
+const $newActivity = $('<label>Total Activity Cost</label>');
+$('.activities').append($newActivity);
+let $totalActivityCost = 0;
+
+/* 
+Listening for changes in the activity section 
+Add a change event listener to the activity section. Inside the listener, it will be helpful to have
+a variable to reference the DOM `input` element that was just clicked.
+● NOTE: It is helpful at this point to log out the variable you just created to double check
+that its values is what you expect. Remember, you’ll need to click on the checkboxes in
+the Activity section to run the code in this listener, including your log statements.
+*/
 // ● Listen for changes in the Activity section
 // ● Create helpful variables to store important values
+$('.activities').on('change', function(event) {
+    const $inputClicked = event.target;
+
+
+});
+
+/*
+Updating and displaying the total activity cost  
+Let’s add another helpful variable in the Activity section’s change listener:
+● Get the `data-cost` attribute value of the clicked element stored in the variable above.
+Since you’ll be performing some simple arithmetic with the activity cost, you’ll need to
+make sure the value is a number. There are helpful methods for turning strings into
+numbers, which can be found with a Google search. And the `typeof` operator can be
+used to log out the data type of a value or variable.
+● NOTE: Again, it’s helpful here to log out the cost variable.
+Still inside the Activity section’s change listener, you can use an `if/else` statement to check if
+the clicked input element is checked or unchecked. If the input element is checked, add the cost
+of the currently clicked activity to the total cost variable, else subtract the cost.
+Finally, set the text of the total cost element (that you created above) equal to the string ‘Total:
+$’ concatenated with the current value of the total cost variable (that you declared above). 
+*/
 // ● Update and display the total activity cost
+
+/*
+Disabling conflicting activities 
+Still inside the Activity section’s change listener, let’s follow the same pattern we used to get
+the cost of the currently clicked activity to get the day and time as well. First, we’ll add another
+helpful variable:
+● Get the `data-day-and-time` attribute value of the clicked element stored in a variable
+above. NOTE: Now would be a good time to log out these most recent variables to
+make sure they are what you think they are.
+Now you need to accomplish the following tasks:
+● When an activity is checked, disable any activity that occurs at the same day and time
+(i.e. "conflicting activities") without disabling the activity that was just checked.
+● And when an activity is unchecked, you want to enable any conflicting activities. 
+To do this, you’ll need to loop over all the checkbox inputs in the Activity section. It will be
+helpful to create a variable that targets the activity input element at the current iteration of the
+loop. Remember, you do this with bracket notation, using the loop iterator in the brackets.
+Something like this: `input[i]`. Be sure to log out the variable you just created to test its value.
+Now that you’re looping over each activity, and capturing each one in a variable, it’s time to test
+a few conditions. In order to disable or enable an activity in the loop, you need to know two
+things about the activity at the current loop iteration:
+Need help? ​Visit the unit-03 Slack channel 
+Full Stack JavaScript
+● First, does the activity occur at the same day and time as the activity that was just
+clicked? We can check this by seeing if the activity in the current loop iteration has a
+`data-day-and-time` attribute that is equal to the `data-day-and-time` attribute of the
+element that was just clicked​.
+● Second, is the activity is different than the activity that was just clicked? We can check
+this by seeing if the activity that was just clicked is ​not equal​ to the activity in the
+current loop iteration.
+Both of these conditions should be checked in a single if statement using the `&&` operator.
+If both conditions evaluate to "true", then this activity needs to be disabled or enabled
+depending on whether the clicked activity was checked or unchecked. An `if/else` statement
+will help here:
+● If the clicked activity was checked, then set the matching activity element's `disabled`
+property to `true`
+● If the clicked activity was unchecked, then set the matching activity element's `disabled`
+property to `false`.
+*/
 // ● Disable conflicting activities
+
+/*
+Payment Section 
+Initially, the credit card section should be selected and displayed in the form, and the other two
+payment options should be hidden. The user should be able to change payment options at any
+time, but shouldn’t be able to select the “Select Payment Method” option. So you’ll need to
+check the currently selected payment option, and hide and show the payment sections in the
+form accordingly.
+● Hide the “Select Payment Method” `option` so it doesn’t show up in the drop down
+menu.
+● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
+credit card payment section in the form to show, and set the other two options to hide.
+● Repeat the above step with the PayPal and BitCoin options so that the selected
+payment is shown and the others are hidden.
+*/
