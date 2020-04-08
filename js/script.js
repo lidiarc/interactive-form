@@ -4,7 +4,17 @@
 // initialFocus.focus();
 const $initialFocus = $("#name");
 $initialFocus.focus();
+/*
+$('#mail').click(function() {
+    if($(this).val().indexOf('@', 0) == -1 || $(this).val().indexOf('.', 0) == -1) {
+        $(this).prev().css("color","red");
+        //alert('El correo electrónico introducido no es correcto.');
+        return false;
+    } else {
 
+    }
+  });
+*/
 /*
 Add an “Other” option to the Job Role section
 This is the one and only section of the project where you will have to make changes directly in the `index.html` file.
@@ -120,7 +130,7 @@ Create a global variable to store total activity cost — initially set to 0 —
 you want to update this as needed.
 */
 // ● Create an element to display the total activity cost
-const $newActivity = $('<label>Total Activity Cost</label>');
+const $newActivity = $('<br><label>Total Activity Cost</label>');
 $('.activities').append($newActivity);
 let $totalActivityCost = 0;
 
@@ -134,12 +144,40 @@ the Activity section to run the code in this listener, including your log statem
 */
 // ● Listen for changes in the Activity section
 // ● Create helpful variables to store important values
-$('.activities').on('change', function(event) {
-    const $inputClicked = event.target;
+//let $totalDataCost = 0;
+$('.activities input').on('click', function(event) {
+    const $inputClicked = $(event.target);
+    //const $inputClicked = event.target;
 
+    const $nameInputClicked = $inputClicked.attr('name');
 
+    //$(event.target).attr('checked', true);
+    $inputClicked.attr('checked', true);
+
+    //const $checked = $nameInputClicked.prop('checked', true);
+    //const $checked = $nameInputClicked.prop('checked');
+    const $checked = $(this).prop("checked");
+    
+    console.log('entra en on()');
+    console.log('Id: ' + $nameInputClicked);
+    
+    const $dataCost = parseInt($(event.currentTarget).attr('data-cost'));
+    //const $dataCost = parseInt($(event.target).eq(0).attr('data-cost').slice(1));
+    //const $dataCost = $('.activities input[data-cost]');
+    //const $dataCost = $(event.currentTarget).attr('data-cost');
+    //console.log(typeof $dataCost);
+    
+    console.log('Coste: ' + $dataCost);
+
+    if ($checked === true){
+        $totalActivityCost += $dataCost;
+        console.log('Coste Total: ' + $totalActivityCost);
+    }else{
+        $totalActivityCost -= $dataCost;
+        $nameInputClicked.disabled = true;
+        console.log('Coste Total: ' + $totalActivityCost);
+    }      
 });
-
 /*
 Updating and displaying the total activity cost  
 Let’s add another helpful variable in the Activity section’s change listener:
