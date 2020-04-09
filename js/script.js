@@ -42,7 +42,7 @@ $('#design').on('change', function() {
     }
 });
 
-const $newActivity = $('<label>Total Activities Cost: </label>');
+const $newActivity = $('<div></div>');
 $('.activities').append($newActivity);
 
 let $totalActivityCost = 0;
@@ -63,9 +63,6 @@ $($inputActivities).on('click', function(event) {
     const $dataCost = parseInt($(event.currentTarget).attr('data-cost'));
 
     const $dayTime = $(event.currentTarget).attr('data-day-and-time');
-    console.log('Data: ' + $dayTime);
-    console.log('Name input seleccionado: ' + $nameInputClicked);
-    console.log('Coste: ' + $dataCost);
 
     if ($checked === true){
         $totalActivityCost += $dataCost;
@@ -75,6 +72,9 @@ $($inputActivities).on('click', function(event) {
         $nameInputClicked.disabled = true;
         console.log('Coste Total: ' + $totalActivityCost);
     }
+
+    //$newActivity.textContent('Total $' + $totalActivityCost);
+    $('.activities div').text('Total: $' + $totalActivityCost);
     
     for (let i = 0; i <= $inputActivities.length; i++) {
 		let $index = $inputActivities.eq(i);
@@ -86,13 +86,9 @@ $($inputActivities).on('click', function(event) {
 			}
 		}
 	}
-    //$inputClicked.empty();
 });
-/*
-const $stringCost = $totalActivityCost.toString();
-const $label = $newActivity + $stringCost;
-console.log($label);
-*/
+
+
 //$newActivity.replace('text', $label);
 //$('.activities').val($label);
 //$newActivity.attr('text', $label);
