@@ -53,29 +53,18 @@ const $inputActivities = $('.activities input');
 $($inputActivities).on('click', function(event) {
 //$('.activities input').on('click', function(event) {
     const $inputClicked = $(event.target);
-    //const $inputClicked = event.target;
 
     const $nameInputClicked = $inputClicked.attr('name');
 
-    //$(event.target).attr('checked', true);
     $inputClicked.attr('checked', true);
 
-    //const $checked = $nameInputClicked.prop('checked', true);
-    //const $checked = $nameInputClicked.prop('checked');
     const $checked = $(this).prop("checked");
     
-    //console.log('entra en on()');
-    //console.log('Id: ' + $nameInputClicked);
-    
     const $dataCost = parseInt($(event.currentTarget).attr('data-cost'));
-    //const $dataCost = parseInt($(event.target).eq(0).attr('data-cost').slice(1));
-    //const $dataCost = $('.activities input[data-cost]');
-    //const $dataCost = $(event.currentTarget).attr('data-cost');
-    //console.log(typeof $dataCost);
 
     const $dayTime = $(event.currentTarget).attr('data-day-and-time');
     console.log('Data: ' + $dayTime);
-    
+    console.log('Name input seleccionado: ' + $nameInputClicked);
     console.log('Coste: ' + $dataCost);
 
     if ($checked === true){
@@ -87,18 +76,28 @@ $($inputActivities).on('click', function(event) {
         console.log('Coste Total: ' + $totalActivityCost);
     }
     
-    $inputActivities.each( function(index,value){
-        console.log("Entra en each()");
-        if ($dayTime === $inputActivities.attr("data-day-and-time") && $inputClicked !== $inputActivities){
-            $inputClicked.disabled = true;
-            console.log("Disabeld true");
-        } else {
-            $inputClicked.disabled = false;
-            console.log("Disabeld false");
-        }
-    });
+    for (let i = 0; i <= $inputActivities.length; i++) {
+		let $index = $inputActivities.eq(i);
+		if ($dayTime == $index.attr('data-day-and-time') && $nameInputClicked !== $index.attr('name')) {
+			if ($checked) {
+				$index.attr('disabled', true);
+			} else {
+				$index.attr('disabled', false);
+			}
+		}
+	}
     //$inputClicked.empty();
 });
+/*
+const $stringCost = $totalActivityCost.toString();
+const $label = $newActivity + $stringCost;
+console.log($label);
+*/
+//$newActivity.replace('text', $label);
+//$('.activities').val($label);
+//$newActivity.attr('text', $label);
+//$newActivity.attr('text', ' ' + $totalActivityCost.toString() + '$');
+//$newActivity.html('textContent', ' ' + $totalActivityCost + '$');
 
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
@@ -189,15 +188,6 @@ the Activity section to run the code in this listener, including your log statem
 // ● Listen for changes in the Activity section
 // ● Create helpful variables to store important values
 
-
-const $stringCost = $totalActivityCost.toString();
-const $label = $newActivity + $stringCost;
-console.log($label);
-//$newActivity.replace('text', $label);
-//$('.activities').val($label);
-//$newActivity.attr('text', $label);
-//$newActivity.attr('text', ' ' + $totalActivityCost.toString() + '$');
-//$newActivity.html('textContent', ' ' + $totalActivityCost + '$');
 /*
 Updating and displaying the total activity cost  
 Let’s add another helpful variable in the Activity section’s change listener:
