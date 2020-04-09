@@ -1,9 +1,110 @@
+const $initialFocus = $("#name");
+$initialFocus.focus();
+
+const $otherTitle = $("#other-title");
+$otherTitle.hide();
+
+$(document).ready( function() {
+    $("#title").change( function() {
+    //Esta opción también funciona:   $("#title").on('change', function() {
+        if ($(this).val() === "other") {
+            $otherTitle.show();
+        } else {
+            $otherTitle.hide();
+        }
+    });
+});
+
+$( window ).on('load', function(event) {
+//$(document).ready( function() {
+    event.preventDefault();
+    
+    $('#design option:eq(0)').hide();
+    
+    const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
+    $('#color').prepend($newOption);    
+    
+    $('#colors-js-puns').hide();
+});
+
+$('#design').on('change', function() {
+//$('#design').change( function() {
+    const $heart_js = $("select#color option:gt(3)");
+    const $js_puns = $('#color option');
+    if ($(this).val() === 'js puns') {
+        $('#colors-js-puns').show();
+        $js_puns.slice(1,4).show();
+        $heart_js.hide();
+    } else {
+        $('#colors-js-puns').show();
+        $js_puns.slice(1,4).hide();
+        $heart_js.show();
+    }
+});
+
+const $newActivity = $('<label>Total Activities Cost: </label>');
+$('.activities').append($newActivity);
+
+let $totalActivityCost = 0;
+
+const activities = $('.activities');
+const $inputActivities = $('.activities input');
+
+$($inputActivities).on('click', function(event) {
+//$('.activities input').on('click', function(event) {
+    const $inputClicked = $(event.target);
+    //const $inputClicked = event.target;
+
+    const $nameInputClicked = $inputClicked.attr('name');
+
+    //$(event.target).attr('checked', true);
+    $inputClicked.attr('checked', true);
+
+    //const $checked = $nameInputClicked.prop('checked', true);
+    //const $checked = $nameInputClicked.prop('checked');
+    const $checked = $(this).prop("checked");
+    
+    //console.log('entra en on()');
+    //console.log('Id: ' + $nameInputClicked);
+    
+    const $dataCost = parseInt($(event.currentTarget).attr('data-cost'));
+    //const $dataCost = parseInt($(event.target).eq(0).attr('data-cost').slice(1));
+    //const $dataCost = $('.activities input[data-cost]');
+    //const $dataCost = $(event.currentTarget).attr('data-cost');
+    //console.log(typeof $dataCost);
+
+    const $dayTime = $(event.currentTarget).attr('data-day-and-time');
+    console.log('Data: ' + $dayTime);
+    
+    console.log('Coste: ' + $dataCost);
+
+    if ($checked === true){
+        $totalActivityCost += $dataCost;
+        console.log('Coste Total: ' + $totalActivityCost);
+    }else{
+        $totalActivityCost -= $dataCost;
+        $nameInputClicked.disabled = true;
+        console.log('Coste Total: ' + $totalActivityCost);
+    }
+    
+    $inputActivities.each( function(index,value){
+        console.log("Entra en each()");
+        if ($dayTime === $inputActivities.attr("data-day-and-time") && $inputClicked !== $inputActivities){
+            $inputClicked.disabled = true;
+            console.log("Disabeld true");
+        } else {
+            $inputClicked.disabled = false;
+            console.log("Disabeld false");
+        }
+    });
+    //$inputClicked.empty();
+});
+
 //Put the first field in the `focus` state
 //Use JavaScript to select the 'Name' input element and place focus on it.
 // const initialFocus = document.getElementById("name");
 // initialFocus.focus();
-const $initialFocus = $("#name");
-$initialFocus.focus();
+
 /*
 $('#mail').click(function() {
     if($(this).val().indexOf('@', 0) == -1 || $(this).val().indexOf('.', 0) == -1) {
@@ -24,20 +125,6 @@ En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicial
 para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
 
-const $otherTitle = $("#other-title");
-$otherTitle.hide();
-
-$(document).ready( function() {
-    $("#title").change( function() {
-    //Esta opción también funciona:   $("#title").on('change', function() {
-        if ($(this).val() === "other") {
-            $otherTitle.show();
-        } else {
-            $otherTitle.hide();
-        }
-    });
-});
-
 /*
 The goal for the t-shirt section is to filter the available "Color" options by the selected 
 theme in the "Design" field. Doing this ensures that the user cannot select an invalid combination
@@ -46,29 +133,11 @@ of values for the "Design" and "Color" fields.
 When the form is initially loaded, we need to update the "Design" and "Color" fields so that it's
 clear to the user that they need to select a theme before selecting a color. Use javaScript to:
 */
-
-$( window ).on('load', function(event) {
-//     console.log(event);
-//$(document).ready( function() {
-    event.preventDefault();
-    // ● Hide the “Select Theme” `option` element in the “Design” menu.
-    //$('#design option:eq(0)').remove();
-    $('#design option:eq(0)').hide();
-    //$('#design[option="Select Theme"]').hide();
-    //$("#design#option").hide();
-
-    // ● Update the “Color” field to read “Please select a T-shirt theme”.
-    //$('#color').html($('<option textContent="Please select a T-shirt theme"></option>'));
-    const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
-    $('#color').prepend($newOption);    
-    
-    // ● Hide the colors in the “Color” drop down menu.
-    //$('#color option').hide();
-    $('#colors-js-puns').hide();
-    // ● NOTE: Be sure to check out the helpful links in the second section of this Study Guide if
+// ● Hide the “Select Theme” `option` element in the “Design” menu.
+// ● Update the “Color” field to read “Please select a T-shirt theme”.
+// ● Hide the colors in the “Color” drop down menu.
+// ● NOTE: Be sure to check out the helpful links in the second section of this Study Guide if
     // you’re unsure of how to accomplish these steps.
-});
-
 
 /*
 Then, when one of the two themes is selected, only the appropriate colors should show in the
@@ -76,34 +145,12 @@ Then, when one of the two themes is selected, only the appropriate colors should
 use a `change` event listener on the “Design” menu `select` element to listen for changes. And
 inside the event listener, you’ll use a conditional to determine what to hide, show and update.
 */
-$('#design').on('change', function() {
-//$('#design').change( function() {
-    console.log($(this).val());
-    // ● If “js puns” is selected, hide the three “heart js” option elements in the “Color” drop
-    // down menu, show the three “js puns” option elements, and update the “Color” field to
-    // the first available color.
-    // ● If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
-    // down menu, show the three “heart js” option elements, and update the “Color” field to
-    // the first available color.
-    // const $heart_js = $('option[value$="+JS shirt+"]');
-    // console.log($heart_js);
-    // const $heart_js2 = $("select#color option[text='JS shirt only)']");
-    // console.log($heart_js2);
-    const $heart_js = $("select#color option:gt(3)");
-    const $js_puns = $('#color option');
-    if ($(this).val() === 'js puns') {
-        $('#colors-js-puns').show();
-        $js_puns.slice(1,4).show();
-        $heart_js.hide();
-    } else {
-        $('#colors-js-puns').show();
-        $js_puns.slice(1,4).hide();
-        $heart_js.show();
-        //$("select#color option[value='+JS Puns+']" ).show();
-        //$(this).attr(selected);
-    }
-});
-
+// ● If “js puns” is selected, hide the three “heart js” option elements in the “Color” drop
+// down menu, show the three “js puns” option elements, and update the “Color” field to
+// the first available color.
+// ● If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
+// down menu, show the three “heart js” option elements, and update the “Color” field to
+// the first available color.
 
 /*
 Like many code problems, there are multiple ways to complete this section of the project.
@@ -130,9 +177,6 @@ Create a global variable to store total activity cost — initially set to 0 —
 you want to update this as needed.
 */
 // ● Create an element to display the total activity cost
-const $newActivity = $('<br><label>Total Activity Cost</label>');
-$('.activities').append($newActivity);
-let $totalActivityCost = 0;
 
 /* 
 Listening for changes in the activity section 
@@ -144,40 +188,16 @@ the Activity section to run the code in this listener, including your log statem
 */
 // ● Listen for changes in the Activity section
 // ● Create helpful variables to store important values
-//let $totalDataCost = 0;
-$('.activities input').on('click', function(event) {
-    const $inputClicked = $(event.target);
-    //const $inputClicked = event.target;
 
-    const $nameInputClicked = $inputClicked.attr('name');
 
-    //$(event.target).attr('checked', true);
-    $inputClicked.attr('checked', true);
-
-    //const $checked = $nameInputClicked.prop('checked', true);
-    //const $checked = $nameInputClicked.prop('checked');
-    const $checked = $(this).prop("checked");
-    
-    console.log('entra en on()');
-    console.log('Id: ' + $nameInputClicked);
-    
-    const $dataCost = parseInt($(event.currentTarget).attr('data-cost'));
-    //const $dataCost = parseInt($(event.target).eq(0).attr('data-cost').slice(1));
-    //const $dataCost = $('.activities input[data-cost]');
-    //const $dataCost = $(event.currentTarget).attr('data-cost');
-    //console.log(typeof $dataCost);
-    
-    console.log('Coste: ' + $dataCost);
-
-    if ($checked === true){
-        $totalActivityCost += $dataCost;
-        console.log('Coste Total: ' + $totalActivityCost);
-    }else{
-        $totalActivityCost -= $dataCost;
-        $nameInputClicked.disabled = true;
-        console.log('Coste Total: ' + $totalActivityCost);
-    }      
-});
+const $stringCost = $totalActivityCost.toString();
+const $label = $newActivity + $stringCost;
+console.log($label);
+//$newActivity.replace('text', $label);
+//$('.activities').val($label);
+//$newActivity.attr('text', $label);
+//$newActivity.attr('text', ' ' + $totalActivityCost.toString() + '$');
+//$newActivity.html('textContent', ' ' + $totalActivityCost + '$');
 /*
 Updating and displaying the total activity cost  
 Let’s add another helpful variable in the Activity section’s change listener:
