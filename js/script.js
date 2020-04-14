@@ -51,7 +51,6 @@ const activities = $('.activities');
 const $inputActivities = $('.activities input');
 
 $($inputActivities).on('click', function(event) {
-//$('.activities input').on('click', function(event) {
     const $inputClicked = $(event.target);
 
     const $nameInputClicked = $inputClicked.attr('name');
@@ -66,16 +65,16 @@ $($inputActivities).on('click', function(event) {
 
     if ($checked === true){
         $totalActivityCost += $dataCost;
-        console.log('Coste Total: ' + $totalActivityCost);
+        //console.log('Coste Total: ' + $totalActivityCost);
     }else{
         $totalActivityCost -= $dataCost;
         $nameInputClicked.disabled = true;
-        console.log('Coste Total: ' + $totalActivityCost);
+        //console.log('Coste Total: ' + $totalActivityCost);
     }
 
     //$newActivity.textContent('Total $' + $totalActivityCost);
     $('.activities div').text('Total: $' + $totalActivityCost);
-    
+    /*
     for (let i = 0; i <= $inputActivities.length; i++) {
 		let $index = $inputActivities.eq(i);
 		if ($dayTime == $index.attr('data-day-and-time') && $nameInputClicked !== $index.attr('name')) {
@@ -85,20 +84,55 @@ $($inputActivities).on('click', function(event) {
 				$index.attr('disabled', false);
 			}
 		}
-	}
+    }
+    */
+   $inputActivities.each( function(){
+    console.log("Entra en each()");
+    if (($dayTime === $(this).attr('data-day-and-time')) && ($nameInputClicked !== $(this).attr('name'))){
+        if ($checked){
+            $(this).attr('disabled', true);
+            console.log("Disabled true");
+            console.log('Name input seleccionado: ' + $nameInputClicked);
+            console.log('Fecha input seleccionado: ' + $dayTime);
+            console.log('el que recorre la lista: ' + $(this).attr('data-day-and-time'));
+            console.log($(this).attr('name'));
+        } else {
+            $(this).attr('disabled', false);
+            console.log("Disabeld false");
+        }
+    }
+});
+    /* S3V4 jQuery Basics
+    if ($(':checked').length === 0){
+        event.preventDefault();
+        alert('Please select almost one activity!');
+    }
+    */
 });
 
-
-//$newActivity.replace('text', $label);
-//$('.activities').val($label);
-//$newActivity.attr('text', $label);
-//$newActivity.attr('text', ' ' + $totalActivityCost.toString() + '$');
-//$newActivity.html('textContent', ' ' + $totalActivityCost + '$');
-
-//Put the first field in the `focus` state
-//Use JavaScript to select the 'Name' input element and place focus on it.
-// const initialFocus = document.getElementById("name");
-// initialFocus.focus();
+$('#payment option[value="select method"]').hide();
+// ● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
+// credit card payment section in the form to show, and set the other two options to hide.
+$(document).ready( function() {
+    $('#payment').change( function() {
+        if ($(this).val() === "credit card") {
+            $('#credit-card').show();
+            $('#paypal').hide();
+            $('#bitcoin').hide();
+        }
+        if ($(this).val() === "paypal") {
+            $('#credit-card').hide();
+            $('#paypal').show();
+            $('#bitcoin').hide();
+        }
+        if ($(this).val() === "bitcoin") {
+            $('#credit-card').hide();
+            $('#paypal').hide();
+            $('#bitcoin').show();
+        }
+    });
+});
+$()
 
 /*
 $('#mail').click(function() {
@@ -247,10 +281,11 @@ payment options should be hidden. The user should be able to change payment opti
 time, but shouldn’t be able to select the “Select Payment Method” option. So you’ll need to
 check the currently selected payment option, and hide and show the payment sections in the
 form accordingly.
-● Hide the “Select Payment Method” `option` so it doesn’t show up in the drop down
-menu.
-● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
-credit card payment section in the form to show, and set the other two options to hide.
-● Repeat the above step with the PayPal and BitCoin options so that the selected
-payment is shown and the others are hidden.
 */
+//● Hide the “Select Payment Method” `option` so it doesn’t show up in the drop down menu.
+
+// ● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
+// credit card payment section in the form to show, and set the other two options to hide.
+
+// ● Repeat the above step with the PayPal and BitCoin options so that the selected
+// payment is shown and the others are hidden.
