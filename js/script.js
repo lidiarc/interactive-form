@@ -15,31 +15,37 @@ $(document).ready( function() {
     });
 });
 
+const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
+
 $( window ).on('load', function(event) {
 //$(document).ready( function() {
     event.preventDefault();
     
     $('#design option:eq(0)').hide();
     
-    const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
-    $('#color').prepend($newOption);    
-    
+    $('#color').prepend($newOption);
     $('#colors-js-puns').hide();
+    $('#color option').hide();
 });
 
 $('#design').on('change', function() {
 //$('#design').change( function() {
     const $heart_js = $("select#color option:gt(3)");
     const $js_puns = $('#color option');
+    $newOption.attr('selected', true);
+    $('#colors-js-puns').show();
     if ($(this).val() === 'js puns') {
-        $('#colors-js-puns').show();
         $js_puns.slice(1,4).show();
         $heart_js.hide();
+        $newOption.attr('selected', false);
+        $('#color option:eq(1)').attr('selected', true);
     } else {
-        $('#colors-js-puns').show();
         $js_puns.slice(1,4).hide();
         $heart_js.show();
+        $newOption.attr('selected', false);
+        $('#color option:eq(4)').attr('selected', true);
     }
+    $newOption.attr('selected', true);
 });
 
 const $newActivity = $('<div></div>');
@@ -65,43 +71,23 @@ $($inputActivities).on('click', function(event) {
 
     if ($checked === true){
         $totalActivityCost += $dataCost;
-        //console.log('Coste Total: ' + $totalActivityCost);
     }else{
         $totalActivityCost -= $dataCost;
         $nameInputClicked.disabled = true;
-        //console.log('Coste Total: ' + $totalActivityCost);
     }
 
-    //$newActivity.textContent('Total $' + $totalActivityCost);
     $('.activities div').text('Total: $' + $totalActivityCost);
-    /*
-    for (let i = 0; i <= $inputActivities.length; i++) {
-		let $index = $inputActivities.eq(i);
-		if ($dayTime == $index.attr('data-day-and-time') && $nameInputClicked !== $index.attr('name')) {
-			if ($checked) {
-				$index.attr('disabled', true);
-			} else {
-				$index.attr('disabled', false);
-			}
-		}
-    }
-    */
-   $inputActivities.each( function(){
-    console.log("Entra en each()");
-    if (($dayTime === $(this).attr('data-day-and-time')) && ($nameInputClicked !== $(this).attr('name'))){
-        if ($checked){
-            $(this).attr('disabled', true);
-            console.log("Disabled true");
-            console.log('Name input seleccionado: ' + $nameInputClicked);
-            console.log('Fecha input seleccionado: ' + $dayTime);
-            console.log('el que recorre la lista: ' + $(this).attr('data-day-and-time'));
-            console.log($(this).attr('name'));
-        } else {
-            $(this).attr('disabled', false);
-            console.log("Disabeld false");
+    
+    $inputActivities.each( function(){
+        //console.log("Entra en each()");
+        if (($dayTime === $(this).attr('data-day-and-time')) && ($nameInputClicked !== $(this).attr('name'))){
+            if ($checked){
+                $(this).attr('disabled', true);
+            } else {
+                $(this).attr('disabled', false);
+            }
         }
-    }
-});
+    });
     /* S3V4 jQuery Basics
     if ($(':checked').length === 0){
         event.preventDefault();
@@ -110,29 +96,175 @@ $($inputActivities).on('click', function(event) {
     */
 });
 
-$('#payment option[value="select method"]').hide();
+
 // ● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
 // credit card payment section in the form to show, and set the other two options to hide.
 $(document).ready( function() {
+    $('#payment option[value="select method"]').hide();
+    $('#paypal').hide();
+    $('#bitcoin').hide();
+    //$('#credit-card').attr('selected', true);
     $('#payment').change( function() {
         if ($(this).val() === "credit card") {
             $('#credit-card').show();
             $('#paypal').hide();
             $('#bitcoin').hide();
-        }
-        if ($(this).val() === "paypal") {
+        } else if ($(this).val() === "paypal") {
             $('#credit-card').hide();
             $('#paypal').show();
             $('#bitcoin').hide();
-        }
-        if ($(this).val() === "bitcoin") {
+        } else if ($(this).val() === "bitcoin") {
             $('#credit-card').hide();
             $('#paypal').hide();
             $('#bitcoin').show();
         }
     });
 });
-$()
+
+// Form cannot be submitted (the page does not refresh when the submit button is clicked) 
+// until the following requirements have been met:
+// $(document).reload({
+
+// });
+//$('button').on('click', function() {
+$(document).on('submit', 'form', function(e) {
+    nameContent();
+    if (nameContent === true) {
+        console.log('ok');
+    } else {
+        return false;
+    }
+    e.preventDefault();
+    console.log("Has hecho click");
+    //$('#name').on("change", createListener(isValidUsername));
+    //$('#name').createListener(isValidUsername);
+    //return false;
+});
+
+// -Name field isn’t blank.
+const nameField = $('#name');
+
+function isValidUsername(nameField) {
+    //console.log('valida name');
+    return /^[a-z]+$/.test(nameField);
+    //return /^[a-z]+/.test(nameField);
+}
+/*
+function nameContent(){
+    var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    var name = nameField.value;
+    if(!regName(name)){
+        alert('Please enter your full name (first & last name).');
+        $('label[for="name"]').css({"color": "red"});
+        nameField.css({"borderColor": "red"});
+        nameField.focus();
+        return false;
+    }else{
+        alert('Valid name given.');
+        return true;
+    }
+}
+*/
+function nameContent (){
+    //if ($('#name').val !== ''){
+    //console.log('se revisa el campo name');
+    if (!isValidUsername(nameField.val())){
+        $('label[for="name"]').css({"color": "red"});
+        nameField.css({"borderColor": "red"});
+        //console.log(nameField.val());
+        //e.preventDefault();
+    } else {
+        console.log('nombre valido');
+        return true;
+    }
+}
+
+  
+  // The telephone number must be in the format of (555) 555-5555
+//   function isValidTelephone(telephone) {
+//     return /^\(\d{3}\)\s\d{3}-\d{4}$/.test(telephone);
+//   }
+    
+// -Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real
+//  e-mail address, just that it's formatted like one: dave@teamtreehouse.com,for example).
+// function isValidEmail(email) {
+//     return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+// }
+
+// -At least one checkbox under "Register for Activities" section must be selected.
+// Must contain a lowercase, uppercase letter and a number
+// function selectedActivity() {
+//     $inputActivities.each( function(){
+//         if ($(this).attr('checked', true)){
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     });
+// }
+
+
+// -If "Credit Card" is the selected payment option, the three fields accept only numbers:
+//  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
+
+// On submission, the form provides an error indication or message for each field that requires validation:
+// -Name field
+// -Email field
+// -“Register for Activities” checkboxes
+// -Credit Card number, Zip code, and CVV, only if the credit card payment method is selected.
+
+// When JavaScript is disabled, all form fields and payment information is displayed, including
+// the "Other" field under the "Job Role" section.
+
+//https://www.w3schools.com/tags/att_button_type.asp
+//Attribute Values <button type="button|submit|reset">
+
+/*
+$(document).ready(function() {
+    $(document).on('submit', '#my-form', function() {
+      // do your things
+      return false;
+     });
+});
+*/
+
+/*
+function showOrHideTip(show, element) {
+    // show element when show is true, hide when false
+    if (show) {
+      element.style.display = "inherit";
+    } else {
+      element.style.display = "none";
+    }
+  }
+  
+  function createListener(validator) {
+    return e => {
+      const text = e.target.value;
+      const valid = validator(text);
+      const showTip = text !== "" && !valid;
+      const tooltip = e.target.nextElementSibling;
+      showOrHideTip(showTip, tooltip);
+    };
+  }
+  */
+
+  //usernameInput.addEventListener("input", createListener(isValidUsername));
+  //$('#name').focusin(createListener(isValidUsername));
+  //nameField.on("input", createListener(isValidUsername));
+  
+  //passwordInput.addEventListener("input", createListener(isValidPassword));
+  
+  //telephoneInput.addEventListener("input", createListener(isValidTelephone));
+  
+  //emailInput.addEventListener("input", createListener(isValidEmail));
+  
+
+
+
+
+
+//$('html').addClass('js');
 
 /*
 $('#mail').click(function() {
