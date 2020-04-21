@@ -126,52 +126,32 @@ $(document).ready( function() {
 // $(document).reload({
 
 // });
+
 //$('button').on('click', function() {
-$(document).on('submit', 'form', function(e) {
-    nameContent();
-    if (nameContent === true) {
-        console.log('ok');
-    } else {
-        return false;
+//$(document).on('submit', 'form', function(e) {
+//$(document).on('submit', function(e) {
+$('form').on('submit', function(e) {
+    const nameVal = nameContent().val;
+    if (nameVal === false) {
+        console.log('el campo nombre no está bien');
+        e.preventDefault();
     }
-    e.preventDefault();
     console.log("Has hecho click");
-    //$('#name').on("change", createListener(isValidUsername));
-    //$('#name').createListener(isValidUsername);
-    //return false;
 });
 
 // -Name field isn’t blank.
 const nameField = $('#name');
 
 function isValidUsername(nameField) {
-    //console.log('valida name');
     return /^[a-z]+$/.test(nameField);
-    //return /^[a-z]+/.test(nameField);
 }
-/*
+
 function nameContent(){
-    var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
-    var name = nameField.value;
-    if(!regName(name)){
-        alert('Please enter your full name (first & last name).');
-        $('label[for="name"]').css({"color": "red"});
-        nameField.css({"borderColor": "red"});
-        nameField.focus();
-        return false;
-    }else{
-        alert('Valid name given.');
-        return true;
-    }
-}
-*/
-function nameContent (){
-    //if ($('#name').val !== ''){
-    //console.log('se revisa el campo name');
     if (!isValidUsername(nameField.val())){
         $('label[for="name"]').css({"color": "red"});
         nameField.css({"borderColor": "red"});
-        //console.log(nameField.val());
+        console.log('nombre invalido');
+        return false;
         //e.preventDefault();
     } else {
         console.log('nombre valido');
