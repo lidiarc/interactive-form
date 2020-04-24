@@ -5,10 +5,11 @@ const $otherTitle = $("#other-title");
 $otherTitle.hide();
 
 $(document).ready( function() {
-    $("#title").change( function() {
-    //Esta opción también funciona:   $("#title").on('change', function() {
+    $("#title").on('change', function() {
+    //Esta opción también funciona:  $("#title").change( function() {
         if ($(this).val() === "other") {
             $otherTitle.show();
+            $otherTitle.focus();
         } else {
             $otherTitle.hide();
         }
@@ -29,7 +30,6 @@ $( window ).on('load', function(event) {
 });
 
 $('#design').on('change', function() {
-//$('#design').change( function() {
     const $heart_js = $("select#color option:gt(3)");
     const $js_puns = $('#color option');
     $newOption.attr('selected', true);
@@ -77,9 +77,9 @@ $($inputActivities).on('click', function(event) {
     }
 
     $('.activities div').text('Total: $' + $totalActivityCost);
+    //https://stackoverflow.com/questions/35057477/update-dom-reference-in-jquery-each
     
     $inputActivities.each( function(){
-        //console.log("Entra en each()");
         if (($dayTime === $(this).attr('data-day-and-time')) && ($nameInputClicked !== $(this).attr('name'))){
             if ($checked){
                 $(this).attr('disabled', true);
@@ -88,12 +88,6 @@ $($inputActivities).on('click', function(event) {
             }
         }
     });
-    /* S3V4 jQuery Basics
-    if ($(':checked').length === 0){
-        event.preventDefault();
-        alert('Please select almost one activity!');
-    }
-    */
 });
 
 
@@ -101,9 +95,10 @@ $($inputActivities).on('click', function(event) {
 // credit card payment section in the form to show, and set the other two options to hide.
 $(document).ready( function() {
     $('#payment option[value="select method"]').hide();
+    $('#payment option[value="credit card"]').attr('selected', true);
     $('#paypal').hide();
     $('#bitcoin').hide();
-    //$('#credit-card').attr('selected', true);
+    
     $('#payment').change( function() {
         if ($(this).val() === "credit card") {
             $('#credit-card').show();
@@ -123,19 +118,47 @@ $(document).ready( function() {
 
 // Form cannot be submitted (the page does not refresh when the submit button is clicked) 
 // until the following requirements have been met:
-// $(document).reload({
 
-// });
-
-//$('button').on('click', function() {
-//$(document).on('submit', 'form', function(e) {
-//$(document).on('submit', function(e) {
 $('form').on('submit', function(e) {
-    const nameVal = nameContent().val;
-    if (nameVal === false) {
+    //e.stopPropagation();
+    e.preventDefault();
+
+    //const activityVal = selectedActivity().val;
+    //selectedActivity();
+    if (nameContent().val === false) {
         console.log('el campo nombre no está bien');
         e.preventDefault();
     }
+    if (emailContent().val === false) {
+        //$("#mail").focus();
+        console.log('el campo email no está bien');
+        e.preventDefault();
+    }
+    
+    // -At least one checkbox under "Register for Activities" section must be selected.
+    if ($('.activities input:checked').length === 0){
+        console.log("entra en if de activities");
+        $('.activities legend').css({"color": "red"});
+        console.log('Please check any activity box.');
+        e.preventDefault();
+    }
+
+    // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
+    //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
+    if (creditCardContent().val === false){
+        console.log('invalid credit card number');
+        e.preventDefault();
+        e.stopPropagation();
+    } else if (zipCodeContent().val === false){
+        console.log('invalid zip code number');
+        e.preventDefault();
+        e.stopPropagation();
+    } else if (cvvCodeContent().val === false){
+        console.log('invalid cvv code number');
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     console.log("Has hecho click");
 });
 
@@ -150,48 +173,101 @@ function nameContent(){
     if (!isValidUsername(nameField.val())){
         $('label[for="name"]').css({"color": "red"});
         nameField.css({"borderColor": "red"});
+        $('#name').focus();
         console.log('nombre invalido');
         return false;
-        //e.preventDefault();
     } else {
-        console.log('nombre valido');
         return true;
     }
 }
 
-  
-  // The telephone number must be in the format of (555) 555-5555
-//   function isValidTelephone(telephone) {
-//     return /^\(\d{3}\)\s\d{3}-\d{4}$/.test(telephone);
-//   }
-    
 // -Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real
 //  e-mail address, just that it's formatted like one: dave@teamtreehouse.com,for example).
-// function isValidEmail(email) {
-//     return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
-// }
+const emailField = $('#mail');
 
-// -At least one checkbox under "Register for Activities" section must be selected.
-// Must contain a lowercase, uppercase letter and a number
-// function selectedActivity() {
-//     $inputActivities.each( function(){
-//         if ($(this).attr('checked', true)){
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     });
-// }
+function isValidEmail(email) {
+    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+}
+
+function emailContent(){
+    if (!isValidEmail(emailField.val())){
+        $('label[for="mail"]').css({"color": "red"});
+        emailField.css({"borderColor": "red"});
+        $('#mail').focus();
+        console.log('email invalido');
+        return false;
+        //e.preventDefault();
+    } else {
+        return true;
+    }
+}
+  
+// credit card: 13 to 16-digit
+const cardNumber = $('#cc-num');
+
+function isValidCreditCardNumber(cardNumber) {
+    console.log('validadndo card number');
+    return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{3})?$/.test(cardNumber);
+}
+
+function creditCardContent(){
+    if (!isValidCreditCardNumber(cardNumber.val())){
+        $('label[for="cc-num"]').css({"color": "red"});
+        cardNumber.css({"borderColor": "red"});
+        console.log('card number invalido');
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// zip code: 5-digit
+const zipCode = $('#zip');
+
+function isValidZipCode(zipCode) {
+    console.log('validadndo zip code');
+    return /^[A-Za-z0-9]{5}$/.test(zipCode);
+}
+
+function zipCodeContent(){
+    if (!isValidZipCode(zipCode.val())){
+        $('label[for="zip"]').css({"color": "red"});
+        zipCode.css({"borderColor": "red"});
+        console.log('zip code invalido');
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//CVV value: 3-number
+const cvvCode = $('#cvv');
+
+function isValidCvvCode(cvvCode) {
+    console.log('validadndo cvv code');
+    return /^[0-9]{3}$/.test(cvvCode);
+}
+
+function cvvCodeContent(){
+    if (!isValidCvvCode(cvvCode.val())){
+        $('label[for="cvv"]').css({"color": "red"});
+        cvvCode.css({"borderColor": "red"});
+        console.log('cvv code invalido');
+        return false;
+    } else {
+        return true;
+    }
+}
 
 
-// -If "Credit Card" is the selected payment option, the three fields accept only numbers:
-//  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
 
 // On submission, the form provides an error indication or message for each field that requires validation:
 // -Name field
 // -Email field
 // -“Register for Activities” checkboxes
 // -Credit Card number, Zip code, and CVV, only if the credit card payment method is selected.
+
+
 
 // When JavaScript is disabled, all form fields and payment information is displayed, including
 // the "Other" field under the "Job Role" section.
