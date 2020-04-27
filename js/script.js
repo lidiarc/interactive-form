@@ -121,18 +121,21 @@ $(document).ready( function() {
 
 $('form').on('submit', function(e) {
     //e.stopPropagation();
-    e.preventDefault();
+    //e.preventDefault();
 
     //const activityVal = selectedActivity().val;
     //selectedActivity();
     if (nameContent().val === false) {
         console.log('el campo nombre no está bien');
         e.preventDefault();
+        e.stopPropagation();
     }
+
     if (emailContent().val === false) {
         //$("#mail").focus();
         console.log('el campo email no está bien');
         e.preventDefault();
+        e.stopPropagation();
     }
     
     // -At least one checkbox under "Register for Activities" section must be selected.
@@ -141,24 +144,35 @@ $('form').on('submit', function(e) {
         $('.activities legend').css({"color": "red"});
         console.log('Please check any activity box.');
         e.preventDefault();
+        e.stopPropagation();
     }
 
     // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
     //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
-    if (creditCardContent().val === false){
-        console.log('invalid credit card number');
-        e.preventDefault();
-        e.stopPropagation();
-    } else if (zipCodeContent().val === false){
-        console.log('invalid zip code number');
-        e.preventDefault();
-        e.stopPropagation();
-    } else if (cvvCodeContent().val === false){
-        console.log('invalid cvv code number');
-        e.preventDefault();
-        e.stopPropagation();
+    if ('#payment option[value="credit card"]') {
+        //e.preventDefault();
+        if (creditCardContent().val === false){
+            console.log('invalid credit card number');
+            e.preventDefault();
+            e.stopPropagation();
+        } else if (zipCodeContent().val === false){
+            console.log('invalid zip code number');
+            e.preventDefault();
+            e.stopPropagation();
+        } else if (cvvCodeContent().val === false){
+            console.log('invalid cvv code number');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
     }
-
+    /*
+    $('#payment').change( function(e) {
+        
+            
+    });
+    */
+    
     console.log("Has hecho click");
 });
 
@@ -206,7 +220,6 @@ function emailContent(){
 const cardNumber = $('#cc-num');
 
 function isValidCreditCardNumber(cardNumber) {
-    console.log('validadndo card number');
     return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{3})?$/.test(cardNumber);
 }
 
@@ -225,7 +238,6 @@ function creditCardContent(){
 const zipCode = $('#zip');
 
 function isValidZipCode(zipCode) {
-    console.log('validadndo zip code');
     return /^[A-Za-z0-9]{5}$/.test(zipCode);
 }
 
@@ -244,7 +256,6 @@ function zipCodeContent(){
 const cvvCode = $('#cvv');
 
 function isValidCvvCode(cvvCode) {
-    console.log('validadndo cvv code');
     return /^[0-9]{3}$/.test(cvvCode);
 }
 
@@ -271,6 +282,7 @@ function cvvCodeContent(){
 
 // When JavaScript is disabled, all form fields and payment information is displayed, including
 // the "Other" field under the "Job Role" section.
+//S2V3 jQuery Basics Videos
 
 //https://www.w3schools.com/tags/att_button_type.asp
 //Attribute Values <button type="button|submit|reset">
