@@ -1,12 +1,26 @@
 const $initialFocus = $("#name");
+const $otherTitle = $("#other-title");
+const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
+const $newActivity = $('<div></div>');
+const activities = $('.activities');
+const $inputActivities = $('.activities input');
+const nameField = $('#name');
+const emailField = $('#mail');
+const cardNumber = $('#cc-num');
+const zipCode = $('#zip');
+const cvvCode = $('#cvv');
+
+let $totalActivityCost = 0;
+
+//On page load, the cursor appears in the "Name" field.
 $initialFocus.focus();
 
-const $otherTitle = $("#other-title");
 $otherTitle.hide();
+$('.activities').append($newActivity);
 
 $(document).ready( function() {
+    //"Your job role" text field appears when user selects "Other" from the Job Role menu
     $("#title").on('change', function() {
-    //Esta opción también funciona:  $("#title").change( function() {
         if ($(this).val() === "other") {
             $otherTitle.show();
             $otherTitle.focus();
@@ -14,19 +28,39 @@ $(document).ready( function() {
             $otherTitle.hide();
         }
     });
-});
 
-const $newOption = $('<option selected="selected">Please select a T-shirt theme</option>');
-
-$( window ).on('load', function(event) {
-//$(document).ready( function() {
-    event.preventDefault();
-    
+    // ● Hide the “Select Theme” `option` element in the “Design” menu.
     $('#design option:eq(0)').hide();
-    
+
+    // ● Update the “Color” field to read “Please select a T-shirt theme”.
     $('#color').prepend($newOption);
+
+    // ● Hide the colors in the “Color” drop down menu.
     $('#colors-js-puns').hide();
     $('#color option').hide();
+
+    // ● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
+    // credit card payment section in the form to show, and set the other two options to hide.
+    $('#payment option[value="select method"]').hide();
+    $('#payment option[value="credit card"]').attr('selected', true);
+    $('#paypal').hide();
+    $('#bitcoin').hide();
+    
+    $('#payment').change( function() {
+        if ($(this).val() === "credit card") {
+            $('#credit-card').show();
+            $('#paypal').hide();
+            $('#bitcoin').hide();
+        } else if ($(this).val() === "paypal") {
+            $('#credit-card').hide();
+            $('#paypal').show();
+            $('#bitcoin').hide();
+        } else if ($(this).val() === "bitcoin") {
+            $('#credit-card').hide();
+            $('#paypal').hide();
+            $('#bitcoin').show();
+        }
+    });
 });
 
 $('#design').on('change', function() {
@@ -47,14 +81,6 @@ $('#design').on('change', function() {
     }
     $newOption.attr('selected', true);
 });
-
-const $newActivity = $('<div></div>');
-$('.activities').append($newActivity);
-
-let $totalActivityCost = 0;
-
-const activities = $('.activities');
-const $inputActivities = $('.activities input');
 
 $($inputActivities).on('click', function(event) {
     const $inputClicked = $(event.target);
@@ -90,81 +116,60 @@ $($inputActivities).on('click', function(event) {
     });
 });
 
-
-// ● Get the value of the payment select element, and if it’s equal to ‘credit card’, set the
-// credit card payment section in the form to show, and set the other two options to hide.
-$(document).ready( function() {
-    $('#payment option[value="select method"]').hide();
-    $('#payment option[value="credit card"]').attr('selected', true);
-    $('#paypal').hide();
-    $('#bitcoin').hide();
-    
-    $('#payment').change( function() {
-        if ($(this).val() === "credit card") {
-            $('#credit-card').show();
-            $('#paypal').hide();
-            $('#bitcoin').hide();
-        } else if ($(this).val() === "paypal") {
-            $('#credit-card').hide();
-            $('#paypal').show();
-            $('#bitcoin').hide();
-        } else if ($(this).val() === "bitcoin") {
-            $('#credit-card').hide();
-            $('#paypal').hide();
-            $('#bitcoin').show();
-        }
-    });
-});
-
 // Form cannot be submitted (the page does not refresh when the submit button is clicked) 
 // until the following requirements have been met:
-
-$('form').on('submit', function(e) {
+$('button').on('click', function(e) {
+//$('form').on('submit', function(e) {
     //e.stopPropagation();
     //e.preventDefault();
 
     //const activityVal = selectedActivity().val;
     //selectedActivity();
     if (nameContent().val === false) {
+        e.preventDefault();
+        alert('Please enter a correct name.');
         console.log('el campo nombre no está bien');
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    if (emailContent().val === false) {
+        
+        // e.stopPropagation();
+        //return false;
+    } else if (emailContent().val === false) {
         //$("#mail").focus();
+        alert('Please enter a correct email.');
         console.log('el campo email no está bien');
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    
-    // -At least one checkbox under "Register for Activities" section must be selected.
-    if ($('.activities input:checked').length === 0){
+         e.preventDefault();
+         //e.stopPropagation();
+        //return false;
+    } else if ($('.activities input:checked').length === 0){
+        // -At least one checkbox under "Register for Activities" section must be selected.
         console.log("entra en if de activities");
         $('.activities legend').css({"color": "red"});
-        console.log('Please check any activity box.');
+        alert('Please check any activity box.');
         e.preventDefault();
-        e.stopPropagation();
-    }
-
-    // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
-    //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
-    if ('#payment option[value="credit card"]') {
+        // e.stopPropagation();
+        //return false;
+    } else if ($('#payment option[value="credit card"]').prop('selected')) {
+        // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
+        //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
         //e.preventDefault();
         if (creditCardContent().val === false){
+            alert('Please enter a credit card number.');
             console.log('invalid credit card number');
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
+            //return false;
         } else if (zipCodeContent().val === false){
+            alert('Please enter a zip code.');
             console.log('invalid zip code number');
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
+            //return false;
         } else if (cvvCodeContent().val === false){
-            console.log('invalid cvv code number');
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
+            alert('Please enter a cvv number.');
+            console.log('invalid cvv code number');
+            //return false;
         }
-        
     }
     /*
     $('#payment').change( function(e) {
@@ -172,13 +177,12 @@ $('form').on('submit', function(e) {
             
     });
     */
-    
     console.log("Has hecho click");
+    
+    
 });
 
 // -Name field isn’t blank.
-const nameField = $('#name');
-
 function isValidUsername(nameField) {
     return /^[a-z]+$/.test(nameField);
 }
@@ -197,8 +201,6 @@ function nameContent(){
 
 // -Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real
 //  e-mail address, just that it's formatted like one: dave@teamtreehouse.com,for example).
-const emailField = $('#mail');
-
 function isValidEmail(email) {
     return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
 }
@@ -207,7 +209,7 @@ function emailContent(){
     if (!isValidEmail(emailField.val())){
         $('label[for="mail"]').css({"color": "red"});
         emailField.css({"borderColor": "red"});
-        $('#mail').focus();
+        //$('#mail').focus();
         console.log('email invalido');
         return false;
         //e.preventDefault();
@@ -217,8 +219,6 @@ function emailContent(){
 }
   
 // credit card: 13 to 16-digit
-const cardNumber = $('#cc-num');
-
 function isValidCreditCardNumber(cardNumber) {
     return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{3})?$/.test(cardNumber);
 }
@@ -235,8 +235,6 @@ function creditCardContent(){
 }
 
 // zip code: 5-digit
-const zipCode = $('#zip');
-
 function isValidZipCode(zipCode) {
     return /^[A-Za-z0-9]{5}$/.test(zipCode);
 }
@@ -253,8 +251,6 @@ function zipCodeContent(){
 }
 
 //CVV value: 3-number
-const cvvCode = $('#cvv');
-
 function isValidCvvCode(cvvCode) {
     return /^[0-9]{3}$/.test(cvvCode);
 }
@@ -350,8 +346,6 @@ Add an “Other” option to the Job Role section
 This is the one and only section of the project where you will have to make changes directly in the `index.html` file.
 In your JavaScript file, target the ‘Other’ input field, and hide it initially, so that it will 
 display if JavaScript is disabled, but be hidden initially with JS. //
-En su archivo JavaScript, oriente el campo de entrada "Otro" y ocúltelo inicialmente, 
-para que se muestre si JavaScript está deshabilitado, pero se oculte inicialmente con JS.
 */
 
 /*
