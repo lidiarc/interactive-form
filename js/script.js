@@ -116,87 +116,9 @@ $($inputActivities).on('click', function(event) {
     });
 });
 
-// Form cannot be submitted (the page does not refresh when the submit button is clicked) 
-// until the following requirements have been met:
-$('button').on('click', function(e) {
-//$('form').on('submit', function(e) {
-    //e.stopPropagation();
-    //e.preventDefault();
-
-    //const activityVal = selectedActivity().val;
-    //selectedActivity();
-    if (nameContent().val === false) {
-        e.preventDefault();
-        alert('Please enter a correct name.');
-        console.log('el campo nombre no está bien');
-        
-        // e.stopPropagation();
-        //return false;
-    } else if (emailContent().val === false) {
-        //$("#mail").focus();
-        alert('Please enter a correct email.');
-        console.log('el campo email no está bien');
-         e.preventDefault();
-         //e.stopPropagation();
-        //return false;
-    } else if ($('.activities input:checked').length === 0){
-        // -At least one checkbox under "Register for Activities" section must be selected.
-        console.log("entra en if de activities");
-        $('.activities legend').css({"color": "red"});
-        alert('Please check any activity box.');
-        e.preventDefault();
-        // e.stopPropagation();
-        //return false;
-    } else if ($('#payment option[value="credit card"]').prop('selected')) {
-        // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
-        //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
-        //e.preventDefault();
-        if (creditCardContent().val === false){
-            alert('Please enter a credit card number.');
-            console.log('invalid credit card number');
-            e.preventDefault();
-            // e.stopPropagation();
-            //return false;
-        } else if (zipCodeContent().val === false){
-            alert('Please enter a zip code.');
-            console.log('invalid zip code number');
-            e.preventDefault();
-            // e.stopPropagation();
-            //return false;
-        } else if (cvvCodeContent().val === false){
-            e.preventDefault();
-            // e.stopPropagation();
-            alert('Please enter a cvv number.');
-            console.log('invalid cvv code number');
-            //return false;
-        }
-    }
-    /*
-    $('#payment').change( function(e) {
-        
-            
-    });
-    */
-    console.log("Has hecho click");
-    
-    
-});
-
 // -Name field isn’t blank.
 function isValidUsername(nameField) {
     return /^[a-z]+$/.test(nameField);
-}
-
-function nameContent(){
-    if (!isValidUsername(nameField.val())){
-        $('label[for="name"]').css({"color": "red"});
-        nameField.css({"borderColor": "red"});
-        $('#name').focus();
-        console.log('nombre invalido');
-        return false;
-    } else {
-        return true;
-    }
 }
 
 // -Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real
@@ -204,34 +126,10 @@ function nameContent(){
 function isValidEmail(email) {
     return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
 }
-
-function emailContent(){
-    if (!isValidEmail(emailField.val())){
-        $('label[for="mail"]').css({"color": "red"});
-        emailField.css({"borderColor": "red"});
-        //$('#mail').focus();
-        console.log('email invalido');
-        return false;
-        //e.preventDefault();
-    } else {
-        return true;
-    }
-}
   
 // credit card: 13 to 16-digit
 function isValidCreditCardNumber(cardNumber) {
     return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{3})?$/.test(cardNumber);
-}
-
-function creditCardContent(){
-    if (!isValidCreditCardNumber(cardNumber.val())){
-        $('label[for="cc-num"]').css({"color": "red"});
-        cardNumber.css({"borderColor": "red"});
-        console.log('card number invalido');
-        return false;
-    } else {
-        return true;
-    }
 }
 
 // zip code: 5-digit
@@ -239,32 +137,88 @@ function isValidZipCode(zipCode) {
     return /^[A-Za-z0-9]{5}$/.test(zipCode);
 }
 
-function zipCodeContent(){
-    if (!isValidZipCode(zipCode.val())){
-        $('label[for="zip"]').css({"color": "red"});
-        zipCode.css({"borderColor": "red"});
-        console.log('zip code invalido');
-        return false;
-    } else {
-        return true;
-    }
-}
-
 //CVV value: 3-number
 function isValidCvvCode(cvvCode) {
     return /^[0-9]{3}$/.test(cvvCode);
 }
 
-function cvvCodeContent(){
-    if (!isValidCvvCode(cvvCode.val())){
-        $('label[for="cvv"]').css({"color": "red"});
-        cvvCode.css({"borderColor": "red"});
-        console.log('cvv code invalido');
-        return false;
+// Form cannot be submitted (the page does not refresh when the submit button is clicked) 
+// until the following requirements have been met:
+$('button').on('click', function(e) {
+//$('form').on('submit', function(e) {
+    if (!isValidUsername(nameField.val())){
+        e.preventDefault();
+        $('label[for="name"]').css({"color": "red"});
+        nameField.css({"borderColor": "red"});
+        $('#name').focus();
+        //console.log('nombre invalido');
+        
     } else {
-        return true;
+        $('label[for="name"]').css({"color": ""});
+        nameField.css({"borderColor": ""});
+        //console.log('name ok');
     }
-}
+
+    if (!isValidEmail(emailField.val())){
+        e.preventDefault();
+        $('label[for="mail"]').css({"color": "red"});
+        emailField.css({"borderColor": "red"});
+        //$('#mail').focus();
+        console.log('email invalido');
+    } else {
+        $('label[for="mail"]').css({"color": ""});
+        emailField.css({"borderColor": ""});
+        console.log('email ok');
+    }
+    
+    if ($('.activities input:checked').length === 0){
+        // -At least one checkbox under "Register for Activities" section must be selected.
+        console.log("entra en if de activities");
+        $('.activities legend').css({"color": "red"});
+        //alert('Please check any activity box.');
+        e.preventDefault();
+        // e.stopPropagation();
+        //return false;
+    } else {
+        $('.activities legend').css({"color": ""});
+    }
+    
+    if ($('#payment option[value="credit card"]').prop('selected')) {
+        // -If "Credit Card" is the selected payment option, the three fields accept only numbers:
+        //  a 13 to 16-digit credit card number, a 5-digit zip code, and 3-number CVV value.
+        
+        if (!isValidCreditCardNumber(cardNumber.val())){
+            e.preventDefault();
+            $('label[for="cc-num"]').css({"color": "red"});
+            cardNumber.css({"borderColor": "red"});
+            console.log('card number invalido');
+        } else {
+            $('label[for="cc-num"]').css({"color": ""});
+            cardNumber.css({"borderColor": ""});
+        }
+
+        if (!isValidZipCode(zipCode.val())){
+            e.preventDefault();
+            $('label[for="zip"]').css({"color": "red"});
+            zipCode.css({"borderColor": "red"});
+            console.log('zip code invalido');
+        } else {
+            $('label[for="zip"]').css({"color": ""});
+            zipCode.css({"borderColor": ""});
+        }
+
+        if (!isValidCvvCode(cvvCode.val())){
+            e.preventDefault();
+            $('label[for="cvv"]').css({"color": "red"});
+            cvvCode.css({"borderColor": "red"});
+            console.log('cvv code invalido');
+        } else {
+            $('label[for="cvv"]').css({"color": ""});
+            cvvCode.css({"borderColor": ""});
+        }
+    }
+    console.log("Has hecho click");
+});
 
 
 
