@@ -151,12 +151,12 @@ function isValidEmail(email) {
   
 // credit card: 13 to 16-digit
 function isValidCreditCardNumber(cardNumber) {
-    return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{3})?$/.test(cardNumber);
+    return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{0,3})?$/.test(cardNumber);
 }
 
 // zip code: 5-digit
 function isValidZipCode(zipCode) {
-    return /^[A-Za-z0-9]{5}$/.test(zipCode);
+    return /^[0-9]{5}$/.test(zipCode);
 }
 
 //CVV value: 3-number
