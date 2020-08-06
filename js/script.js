@@ -151,7 +151,8 @@ function isValidEmail(email) {
   
 // credit card: 13 to 16-digit
 function isValidCreditCardNumber(cardNumber) {
-    return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{0,3})?$/.test(cardNumber);
+    return /^[0-9]{13}(?:[0-9]{0,3})?$/.test(cardNumber); //onli numbers
+    //return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{0,3})?$/.test(cardNumber); //accept numeric and non-numeric characters 
 }
 
 // zip code: 5-digit
@@ -159,7 +160,7 @@ function isValidZipCode(zipCode) {
     return /^[0-9]{5}$/.test(zipCode);
 }
 
-//CVV value: 3-number
+//CVV value: 3-numbers
 function isValidCvvCode(cvvCode) {
     return /^[0-9]{3}$/.test(cvvCode);
 }
