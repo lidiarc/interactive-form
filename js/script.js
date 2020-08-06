@@ -131,8 +131,10 @@ $($inputActivities).on('click', function(event) {
         if (($dayTime === $(this).attr('data-day-and-time')) && ($nameInputClicked !== $(this).attr('name'))){
             if ($checked){
                 $(this).attr('disabled', true);
+                $(this).parent().css({"text-decoration":"line-through"});
             } else {
                 $(this).attr('disabled', false);
+                $(this).parent().css({"text-decoration":"none"});
             }
         }
     });
@@ -140,7 +142,7 @@ $($inputActivities).on('click', function(event) {
 
 // -Name field isn’t blank.
 function isValidUsername(nameField) {
-    return /^[a-z]+$/.test(nameField);
+    return /^[a-zA-Z]+(?:[\s][a-zA-Z]+)*$/.test(nameField);
 }
 
 // -Email field contains validly formatted e-mail address: (doesn’t have to check that it's a real
