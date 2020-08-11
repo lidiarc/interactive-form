@@ -1,6 +1,6 @@
 //Porject 3 - Interactive Form
 //Lidia Ramos
-//v.47
+//v.48
 
 
 //Global variables
@@ -153,8 +153,7 @@ function isValidEmail(email) {
   
 // credit card: 13 to 16-digit
 function isValidCreditCardNumber(cardNumber) {
-    return /^[0-9]{13}(?:[0-9]{0,3})?$/.test(cardNumber); //onli numbers
-    //return /^[A-Za-z0-9]{13}(?:[A-Za-z0-9]{0,3})?$/.test(cardNumber); //accept numeric and non-numeric characters 
+    return /^[0-9]{13}(?:[0-9]{0,3})?$/.test(cardNumber);
 }
 
 // zip code: 5-digit
@@ -170,41 +169,33 @@ function isValidCvvCode(cvvCode) {
 // Form cannot be submitted (the page does not refresh when the submit button is clicked) 
 // until the following requirements have been met:
 $('button').on('click', function(e) {
-//$('form').on('submit', function(e) {
     if (!isValidUsername(nameField.val())){
         e.preventDefault();
         $('label[for="name"]').css({"color": "red"});
         nameField.css({"borderColor": "red"});
         $('#name').focus();
-        //console.log('nombre invalido');
     } else {
         $('label[for="name"]').css({"color": ""});
         nameField.css({"borderColor": ""});
-        //console.log('name ok');
     }
 
     if (!isValidEmail(emailField.val())){
         e.preventDefault();
         $('label[for="mail"]').css({"color": "red"});
         emailField.css({"borderColor": "red"});
-        //$('#mail').focus();
-        console.log('email invalido');
     } else {
         $('label[for="mail"]').css({"color": ""});
         emailField.css({"borderColor": ""});
-        console.log('email ok');
     }
-    
+   
     if ($('.activities input:checked').length === 0){
         // -At least one checkbox under "Register for Activities" section must be selected.
-        console.log("entra en if de activities");
         $('.activities legend').css({"color": "red"});
-        //alert('Please check any activity box.');
+        $('.activities label').css({"border": "2px solid red"});
         e.preventDefault();
-        // e.stopPropagation();
-        //return false;
     } else {
         $('.activities legend').css({"color": ""});
+        $('.activities label').css({"border": ""});
     }
     
     if ($('#payment option[value="credit card"]').prop('selected')) {
@@ -215,7 +206,6 @@ $('button').on('click', function(e) {
             e.preventDefault();
             $('label[for="cc-num"]').css({"color": "red"});
             cardNumber.css({"borderColor": "red"});
-            console.log('card number invalido');
         } else {
             $('label[for="cc-num"]').css({"color": ""});
             cardNumber.css({"borderColor": ""});
@@ -225,7 +215,6 @@ $('button').on('click', function(e) {
             e.preventDefault();
             $('label[for="zip"]').css({"color": "red"});
             zipCode.css({"borderColor": "red"});
-            console.log('zip code invalido');
         } else {
             $('label[for="zip"]').css({"color": ""});
             zipCode.css({"borderColor": ""});
@@ -235,11 +224,9 @@ $('button').on('click', function(e) {
             e.preventDefault();
             $('label[for="cvv"]').css({"color": "red"});
             cvvCode.css({"borderColor": "red"});
-            console.log('cvv code invalido');
         } else {
             $('label[for="cvv"]').css({"color": ""});
             cvvCode.css({"borderColor": ""});
         }
     }
-    console.log("Has hecho click");
 });
